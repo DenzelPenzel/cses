@@ -14,6 +14,7 @@ Print one integer: the required number of subarrays.
 Constraints
 1≤n≤2⋅105
 −109≤ai≤109
+
 Example
 
 Input:

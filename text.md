@@ -1,0 +1,12 @@
+Questions:
+- Round Trip (why with out backtracking answers is wrong)
+- High Score (hard) ==> bellman-ford
+- Cycle Finding ==> bellman-ford negative cycle
+- Flight Discount ==> two Dijkstra
+- Round Trip II ==> topo sort + path finder
+- Longest Flight Route ==> topo sort + dp
+- Game Routes ==> topo sort + dp
+- Planets Queries I ==> Binary Lifting
+- Flight Routes Check ==> DFS theorem
+- Planets Cycles ==> hard for me
+- Coin Collector ==> scc + dp

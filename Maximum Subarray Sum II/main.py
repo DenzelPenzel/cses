@@ -1,5 +1,6 @@
 """
-Given an array of n integers, your task is to find the maximum sum of values in a contiguous subarray with length between a and b.
+Given an array of n integers, your task is to find the maximum sum of values in a 
+contiguous subarray with length between a and b.
 
 Input
 
@@ -25,19 +26,30 @@ Output:
 8
 """
 
+import collections
 from itertools import accumulate
 
-
 if __name__ == '__main__':
-    n, L, R = list(map(int, input().split()))
-    A = list(map(int, input().split()))
+    n, L, R = [8, 3, 6]  # list(map(int, input().split()))
+    A = [2, 4, -4, 9, 87, 87, 87, -10000]  # list(map(int, input().split()))
 
-    res = float('-inf')
     prefix = [0] + list(accumulate(A))
+    stack = collections.deque([[0, 0]])
+    res = prefix[n] if L == n else float('-inf')
 
-    for i in range(L, n + 1):
-        for k in range(L, R + 1):
-            if i - k >= 0:
-                sub = A[i - k:i]
-                res = max(res, prefix[i] - prefix[i - k])
+    # we are trying to maximize (prefix[i] - prefix[j])
+    # then we need to minimize  prefix[j] and j should be in the range [i - R, i]
+    for i in range(L, len(A) + 1):
+        # keep mono increasing stack
+        while stack and stack[-1][0] > prefix[i - L]:
+            stack.pop()
+
+        while stack and i - stack[0][1] > R:
+            stack.popleft()
+
+        # adding the prefix[j] in the stack
+        stack.append((prefix[i - L], i - L))
+        # find the max sum in the range [j, i]
+        res = max(res, prefix[i] - stack[0][0])
+
     print(res)

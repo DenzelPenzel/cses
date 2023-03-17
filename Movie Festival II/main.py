@@ -32,26 +32,29 @@ Output:
 4
 """
 
+from sys import stdin
 from typing import List
+import bisect
+from utils.read_write_io import IOWrapper
+import sys
+
+# (sort by end + max heap queue)
 
 if __name__ == '__main__':
+    sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+    input = lambda: list(map(int, sys.stdin.readline().rstrip("\n").split(" ")))
+    n, k = input()
+    A = sorted([input() for _ in range(n)], key=lambda x: x[1])
 
-    def longest_non_overlap(A: List[List[int]]) -> List[List[int]]:
-        A.sort(key=lambda x: x[0])
-        prev = None
-        longest = 0
-        for i in range(len(A)):
-            if prev is None or prev <= A[i][0]:
-                prev = A[i][1]
-                longest += 1
-            else:
-                prev = min(prev, A[i][1])
-        return longest
+    res = 0
+    available = [0] * k
 
-    n, k = list(map(int, input().split()))
-    intervals = []
-    for _ in range(n):
-        a, b = list(map(int, input().split()))
-        intervals.append([a, b])
+    for start, end in A:
+        idx = bisect.bisect_right(available, start)
+        if idx == 0:
+            continue
+        del available[idx - 1]
+        bisect.insort_left(available, end)
+        res += 1
 
-    print(min(longest_non_overlap(intervals) + k, len(intervals)))
+    print(res)

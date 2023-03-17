@@ -35,3 +35,40 @@ Output:
 4
 """
 
+if __name__ == '__main__':
+    n, m = list(map(int, input().split()))
+    A = list(map(lambda x: int(x) - 1, input().split()))
+
+    swaps = []
+    tmp = []
+
+    def add(i):
+        if A[i] > 0:
+            tmp.append((A[i] - 1, A[i]))
+        if A[i] < n - 1:
+            tmp.append((A[i], A[i] + 1))
+
+    for _ in range(m):
+        x, y = list(map(int, input().split()))
+        swaps.append((x - 1, y - 1))
+
+    mapping = {v: i for i, v in enumerate(A)}
+    res = 1
+
+    for i in range(1, len(A)):
+        res += A[i] < A[i - 1]
+
+    for i, j in swaps:
+        add(i), add(j)
+
+        for a, b in tmp:
+            res -= mapping[b] < mapping[a]
+
+        mapping[i], mapping[j] = mapping[i], mapping[j]
+        A[i], A[j] = A[j], A[i]
+
+        for a, b in tmp:
+            res += mapping[b] < mapping[a]
+
+        tmp.clear()
+        print(res)

@@ -1,5 +1,7 @@
 """
-You have n coins with positive integer values. What is the smallest sum you cannot create using a subset of the coins?
+You have n coins with positive integer values.
+
+What is the smallest sum you cannot create using a subset of the coins?
 
 Input
 
